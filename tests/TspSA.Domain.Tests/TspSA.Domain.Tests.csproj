@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="CityFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TourFacts.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
