@@ -1,6 +1,6 @@
 ﻿namespace Playground
 {
-    partial class UI
+    partial class View
     {
         /// <summary>
         /// Required designer variable.

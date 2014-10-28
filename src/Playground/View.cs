@@ -4,10 +4,13 @@ using System.Windows.Forms;
 
 namespace Playground
 {
-    public partial class UI : Form
+    public partial class View : Form
     {
-        public UI()
+        private readonly ViewModel _vm;
+
+        internal View(ViewModel vm)
         {
+            _vm = vm;
             InitializeComponent();
 
             OutputPictureBox.Paint += OutputPictureBox_Paint;
@@ -18,28 +21,42 @@ namespace Playground
 
         void OutputPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            var x = Math.Round((e.Location.X - UtilLeft) / CellWidth);
-            var y = Math.Round((e.Location.Y - UtilTop) / CellHeight);
-            MessageBox.Show(x + ", " + y);
-            
+            var x = (int)Math.Round((e.Location.X - UtilLeft) / CellWidth);
+            var y = (int)Math.Round((e.Location.Y - UtilTop) / CellHeight);
+            _vm.PickAt(x, y);
+            using (var g = OutputPictureBox.CreateGraphics()) Render(g);
         }
 
         void OutputPictureBox_Paint(object sender, PaintEventArgs e)
         {
-            var g = e.Graphics;
+            Render(e.Graphics);
+        }
+
+        private void Render(Graphics g)
+        {
             g.Clear(SystemColors.Control);
             for (var i = 0; i <= SizeOfGrid; i++)
             {
                 g.DrawLine(
                     Pens.Black,
-                    new Point(UtilLeft, GetY(i)), 
-                    new Point(UtilRight, GetY(i)) 
+                    new Point(UtilLeft, GetY(i)),
+                    new Point(UtilRight, GetY(i))
                     );
 
                 g.DrawLine(
                     Pens.Black,
-                    new Point(GetX(i), UtilTop ),
-                    new Point(GetX(i), UtilBottom )
+                    new Point(GetX(i), UtilTop),
+                    new Point(GetX(i), UtilBottom)
+                    );
+            }
+
+            foreach (var city in _vm.Cities)
+            {
+                g.FillEllipse(Brushes.Red,
+                    GetX((int)city.LocationX) - 5,
+                    GetY((int)city.LocationY) - 5,
+                    10,
+                    10
                     );
             }
         }

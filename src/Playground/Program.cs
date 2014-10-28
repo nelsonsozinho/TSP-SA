@@ -6,7 +6,7 @@ namespace Playground
     {
         static void Main(string[] args)
         {
-            var ui = new UI();
+            var ui = new View(new ViewModel());
             Application.Run(ui);
         }
     }
