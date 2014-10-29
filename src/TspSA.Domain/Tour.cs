@@ -14,6 +14,18 @@ namespace TspSA.Domain
 
         public IEnumerable<City> Route { get { return _route; } }
 
+        public Tour Swap(int indexOfCity1, int indexOfCity2)
+        {
+            var copy = new City[_route.Length];
+            _route.CopyTo(copy, 0);
+
+            var s = copy[indexOfCity1];
+            copy[indexOfCity1] = copy[indexOfCity2];
+            copy[indexOfCity2] = s;
+
+            return new Tour(copy);
+        }
+
         public double TotalDistance
         {
             get
