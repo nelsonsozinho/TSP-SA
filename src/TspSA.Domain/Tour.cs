@@ -42,5 +42,10 @@ namespace TspSA.Domain
                 return _totalDistance;
             }
         }
+
+        public bool IsBestThan(Tour other)
+        {
+            return TotalDistance < other.TotalDistance;
+        }
     }
 }
